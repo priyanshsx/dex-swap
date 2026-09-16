@@ -15,7 +15,19 @@ Under calm vs. stressed market conditions over the past year, which venue (Unisw
 
 ### Methodology 
 
-Since the DEXs offering volume can change dynamically, this research specifically picked three of the biggest and most-known venues for v1: Uniswap V3, PancakeSwap, and Curve. Chains categorized by volume can be found on [DeFiLlama](https://defillama.com/dexs/chain/ethereum) and [Coingecko](https://www.coingecko.com/en/exchanges/decentralized/ethereum). 
+Since the DEXs offering volume can change dynamically, this research specifically picked three of the biggest and most-known venues for v1: Uniswap V3, PancakeSwap, and Curve. Chains categorized by volume can be found on [DeFiLlama](https://defillama.com/dexs/chain/ethereum) and [Coingecko](https://www.coingecko.com/en/exchanges/decentralized/ethereum).
+
+Each of Uniswap's fee tiers (0.05%), (0.3%), and 1% were each treated as independent liquidity venues for ease of analysis. 
+
+Uniswap Pools 
+The following pools were selected from the list of [available pools](https://app.uniswap.org/explore/pools) on Uniswap for ETH/USDC and ETH/USDT pairs on Uniswap v3: 
+- ETH/USDC uniswapv3_0.05: 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640
+- ETH/USDC uniswapv3_0.3: 0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8
+- ETH/USDC uniswapv3_0.01: 0xE0554a476A092703abdB3Ef35c80e0D76d32939F
+- ETH/USDC uniswapv3_1: 0x7BeA39867e4169DBe237d55C8242a8f2fcDcc387
+- ETH/USDT uniswapv3_0.05: 0x11b815efB8f581194ae79006d24E0d814B7697F6
+- ETH/USDT uniswapv3_0.3: 0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36
+- ETH/USDT uniswapv3_0.01: 0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b 
 
 ### To learn before starting project: 
 
