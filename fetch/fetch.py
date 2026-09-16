@@ -94,5 +94,6 @@ for pool_info in pool_uuids:
 df_tvl = pd.DataFrame(all_records)
 
 # ensuring the correct format for time so that easier to merge with csv from dune 
-df_tvl['date'] = pd.to_datetime(df_tvl['date']).dt.date
-df_tvl.to_csv('/home/priyansh/Documents/d/dex_swap/raw_data/defillama_tvl.csv', index=False)
+df_tvl['week'] = pd.to_datetime(df_tvl['date']).dt.tz_localize(None).dt.to_period('W').dt.to_timestamp()
+df_tvl_weekly = (df_tvl.groupby(['week', 'project_contract_address', 'symbol', 'fee_tier'])['tvl_usd'].mean().reset_index())
+df_tvl_weekly.to_csv('/home/priyansh/Documents/d/dex_swap/raw_data/df_tvl_weekly.csv', index=False)
