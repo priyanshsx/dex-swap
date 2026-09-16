@@ -17,9 +17,18 @@
 -- ETH/USDT uniswapv3_0.01: 0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b
 
 -- swap details
-    -- dex.trades
+    -- table used: dex.trades
         -- blockchain = ethereum
         -- project, token_bought_symbol, token_sold_symbol, token_pair
         -- token_bought_amount, token_sold_amount, amount_usd, project_contract_address, 
         -- tx_hash
--- liquidity details 
+-- liquidity details (curve, sushiswap) 
+    -- table to use: dex.pools_metrics_daily 
+        -- blockchain, project, pool_symbol, pool_type, swap_amount_usd, tvl_usd, tvl_eth,
+        -- block_date
+        -- NB: the dex.pools_metrics_daily doesn't contain data for uniswap 
+        -- all columns for this table: blockchain, project, version, block_date, project_contract_address, pool_symbol, pool_type, swap_amount_usd, tvl_usd, tvl_eth, fee_amount_usd  
+    
+-- liquidity details (uniswap)
+    -- table to use: uniswap_v3_ethereum.uniswapv3pool_call_liquidity 
+        -- schema: contract_address, call_success, call_tx_hash, call_tx_from, call_tx_to, call_tx_indes, call_trace_address, call_block_time, call_block_number, call_block_date, output_0

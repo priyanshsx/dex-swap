@@ -29,6 +29,14 @@ The following pools were selected from the list of [available pools](https://app
 - ETH/USDT uniswapv3_0.3: 0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36
 - ETH/USDT uniswapv3_0.01: 0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b 
 
+Total Pool TVL
+Instead of measuring tick-wise liquidity, this investigation considers Total Pool TVL as a proxy for the overall pool depth across fee tiers. Pool TVL is calculated using the given formula: 
+Pool TVL = (WETH Balance * ETH Price) + USDC Balance 
+
+While sourcing historical data for pool tvl, I took the liberty of assuming that tvl_usd (a column from Dune's table) is the accurate source of tvl. Further, the liberty to assume that 50% of the tvl was in eth and the remaining 50% in usd was also exercised. 
+
+Historical TVL sourcing: I couldn't find historical TVL data from Dune for Uniswap v3. And hence, I was unable to use that for tvl data. Instead, I found it on [DeFillama's docs](https://api-docs.defillama.com/#tag/yields/get/chart/{pool}). 
+
 ### To learn before starting project: 
 
 1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically
