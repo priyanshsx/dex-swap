@@ -22,13 +22,28 @@
         -- project, token_bought_symbol, token_sold_symbol, token_pair
         -- token_bought_amount, token_sold_amount, amount_usd, project_contract_address, 
         -- tx_hash
--- liquidity details (curve, sushiswap) 
+    -- in this case, we will have to get results by assigning the project_contract_address 
+    -- hence for getting details for ETH/USDC uniswapv3_0.05, we will have to specify the project_contract_address as the address above 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- ================================ can delete later ====================================
+-- (not needed) liquidity details (curve, sushiswap) 
     -- table to use: dex.pools_metrics_daily 
         -- blockchain, project, pool_symbol, pool_type, swap_amount_usd, tvl_usd, tvl_eth,
         -- block_date
         -- NB: the dex.pools_metrics_daily doesn't contain data for uniswap 
         -- all columns for this table: blockchain, project, version, block_date, project_contract_address, pool_symbol, pool_type, swap_amount_usd, tvl_usd, tvl_eth, fee_amount_usd  
-    
--- liquidity details (uniswap)
-    -- table to use: uniswap_v3_ethereum.uniswapv3pool_call_liquidity 
-        -- schema: contract_address, call_success, call_tx_hash, call_tx_from, call_tx_to, call_tx_indes, call_trace_address, call_block_time, call_block_number, call_block_date, output_0
