@@ -37,6 +37,8 @@ While sourcing historical data for pool tvl, I took the liberty of assuming that
 
 Historical TVL sourcing: I couldn't find historical TVL data from Dune for Uniswap v3. And hence, I was unable to use that for tvl data. Instead, I found it on [DeFillama's docs](https://api-docs.defillama.com/#tag/yields/get/chart/{pool}). 
 
+The project UUIDs were extracted from defillama's data and then stored by adding the project_contract_address separately. 
+
 ### To learn before starting project: 
 
 1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically

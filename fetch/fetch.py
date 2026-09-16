@@ -11,10 +11,10 @@ url = "https://yields.llama.fi/pools"
 response = requests.get(url)
 
 if response.status_code == 200:
-    print(f"Successfully fetched data.")
+    print(f"Successfully fetched data from DeFillama.")
     data = response.json()
 else:
-    print(f"Error fetching the data.")
+    print(f"Error fetching the data from DeFillama.")
 
 # find specific UUIDs per pool 
 
@@ -65,6 +65,26 @@ for item in data['data']:
 
 # fetch the historical data per UUID 
 
+all_records = []
 
+for pool_info in pool_uuids:
+    pool_id = pool_info['uuid']
+
+    url = f"https://yields.llama.fi/chart/{pool_id}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        chart_data = response.json()
+
+        for entry in chart_data.get('data', []):
+            all_records.append({
+                "date": entry["timestamp"],
+                "tvl_usd": entry['tvlUsd'],
+                "symbol": pool_info["symbol"],
+                "fee_tier": pool_info["fee_tier"],
+                "project_contract_address": pool_info["project_contract_address"]
+            })
+    else: 
+        print(f"Error fetching historical data from DeFillama for UUID: {pool_id}.")
 
 # saving to a csv
