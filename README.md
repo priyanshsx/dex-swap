@@ -12,7 +12,15 @@ Under calm vs. stressed market conditions over the past year, which venue (Unisw
 4. Consistency/reliability: this analysis reports variance of execution quality per venue. 
 5. Behavior around specific named events: Sharp BTC drawdown in October 2025, liquidation cascades etc. 
 6. Comparisons against 1inch's historical quoted price for the same pair/size where available
- 
+
+### To learn before starting project: 
+
+1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically
+2. Data/API skills: REST API basics: pagination, rate limits, auth headers (for Dune + 1inch APIs)
+JSON parsing into DataFrames
+3. Pandas (the specific operations this project needs); resample() and rolling windows (for regime classification, rolling volatility); Merging/joining on timestamp across multiple sources; Handling missing/gapped time-series data
+
+
 
 ## Data 
 - Dune 
