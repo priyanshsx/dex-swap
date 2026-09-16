@@ -35,8 +35,6 @@
     -- in this case, we will have to get results by assigning the project_contract_address 
     -- hence for getting details for ETH/USDC uniswapv3_0.05, we will have to specify the project_contract_address as the address above 
 
-
-
 SELECT 
     project AS project, 
     block_time AS block_time, 
@@ -72,21 +70,21 @@ END AS venue
 FROM dex.trades 
 
 WHERE 
-    blockchain = "ethereum" AND 
-    project IN ("uniswap", "sushiswap", "curve") AND 
+    blockchain = 'ethereum' AND 
+    project IN ('uniswap', 'sushiswap', 'curve') AND 
     project_contract_address IN (
-        '0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640',
-        '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
-        '0xE0554a476A092703abdB3Ef35c80e0D76d32939F',
-        '0x7BeA39867e4169DBe237d55C8242a8f2fcDcc387',
-        '0x11b815efB8f581194ae79006d24E0d814B7697F6',
-        '0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36',
-        '0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b',
-        '0x397FF1542f962076d0BFE58eA045FfA2d347ACa0',
-        '0x06da0fd433C1A5d7a4faA01111c044910A184553',
-        '0x7f86bf177dd4f3494b841a37e810a34dd56c829b',
-        '0xD51a44d3FaE010294C616388b506AcdA1bfAAE46',
-        '0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4'
+        0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640,
+        0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8,
+        0xE0554a476A092703abdB3Ef35c80e0D76d32939F,
+        0x7BeA39867e4169DBe237d55C8242a8f2fcDcc387,
+        0x11b815efB8f581194ae79006d24E0d814B7697F6,
+        0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36,
+        0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b,
+        0x397FF1542f962076d0BFE58eA045FfA2d347ACa0,
+        0x06da0fd433C1A5d7a4faA01111c044910A184553,
+        0x7f86bf177dd4f3494b841a37e810a34dd56c829b,
+        0xD51a44d3FaE010294C616388b506AcdA1bfAAE46,
+        0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4
     ) AND 
     block_time >= CAST('2025-07-16' AS TIMESTAMP) AND 
     amount_usd >= 500
