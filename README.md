@@ -27,9 +27,8 @@ JSON parsing into DataFrames
 - [ ] Explore Dune's public dashboards for Uniswap v3, SushiSwap, Curve, and Balancer swap data — fork existing queries rather than writing from scratch
 - [ ] Identify the correct pool(s) for ETH/USDC on each venue:
   - [ ] Uniswap v3 — note the fee tier(s) available (0.05%, 0.3%, 1%); decide whether to track the deepest tier only or all tiers
-  - [ ] SushiSwap — identify the main ETH/USDC pool
+  - [ ] PancakeSwap — identify the main ETH/USDC pool
   - [ ] Curve — identify the relevant pool (Curve's ETH/USDC pools use a different invariant than the others — confirm which pool is most comparable)
-  - [ ] Balancer — identify the relevant weighted pool
 - [ ] Pull 1 year of swap-level data per venue via the Dune API (swap size, price, timestamp, pool reserves at time of swap if available)
 - [ ] Pull 1 year of pool TVL/reserves data per venue (separate from swap-level data — needed for the liquidity-depth analysis)
 - [ ] Cache all raw pulls locally (CSV or SQLite) so you're not re-querying Dune every time you rerun analysis
