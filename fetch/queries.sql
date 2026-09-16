@@ -26,15 +26,6 @@
 -- tricrypto2 / usdt/wbtc/weth: 0xD51a44d3FaE010294C616388b506AcdA1bfAAE46
 -- tricrypto usdt: 0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4
 
--- swap details
-    -- table used: dex.trades
-        -- blockchain = ethereum
-        -- project, token_bought_symbol, token_sold_symbol, token_pair
-        -- token_bought_amount, token_sold_amount, amount_usd, project_contract_address, 
-        -- tx_hash
-    -- in this case, we will have to get results by assigning the project_contract_address 
-    -- hence for getting details for ETH/USDC uniswapv3_0.05, we will have to specify the project_contract_address as the address above 
-
 SELECT 
     DATE_TRUNC('week', block_time) AS week,
 
@@ -68,7 +59,8 @@ SELECT
     COUNT(*) AS swap_count,
     SUM(amount_usd) AS total_volume_usd,
     SUM(token_bought_amount) AS total_token_bought,
-    SUM(token_sold_amount) AS total_token_sold
+    SUM(token_sold_amount) AS total_token_sold,
+    project_contract_address AS project_contract_address
 
 FROM dex.trades 
 
