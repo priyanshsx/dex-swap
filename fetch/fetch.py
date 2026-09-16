@@ -70,12 +70,14 @@ all_records = []
 for pool_info in pool_uuids:
     pool_id = pool_info['uuid']
 
+    # getting response from defillama 
     url = f"https://yields.llama.fi/chart/{pool_id}"
     response = requests.get(url)
 
     if response.status_code == 200:
         chart_data = response.json()
 
+        # storing all records in the all_records dict
         for entry in chart_data.get('data', []):
             all_records.append({
                 "date": entry["timestamp"],
@@ -88,3 +90,9 @@ for pool_info in pool_uuids:
         print(f"Error fetching historical data from DeFillama for UUID: {pool_id}.")
 
 # saving to a csv
+
+df_tvl = pd.DataFrame(all_records)
+
+# ensuring the correct format for time so that easier to merge with csv from dune 
+df_tvl['date'] = pd.to_datetime(df_tvl['date']).dt.date
+df_tvl.to_csv('/home/priyansh/Documents/d/dex_swap/raw_data/defillama_tvl.csv', index=False)
