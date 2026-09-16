@@ -87,7 +87,23 @@ WHERE
 GROUP BY 1, 2, 3
 ORDER BY week, venue, size_bucket
 
+-- joining the two tables in duckdb
+CREATE TABLE merged AS 
+SELECT 
+    dune.venue, 
+    dune.size_bucket,
+    dune.project_contract_address, 
+    dune.swap_count, 
+    dune.total_volume_usd, 
+    dune.total_token_bought, 
+    dune.total_token_sold,
+    tvl.tvl_usd, 
+    tvl.fee_tier
 
+FROM dune_swap_data_updated AS dune
+LEFT JOIN df_tvl_weekly AS tvl
+ON LOWER(dune.project_contract_address) = LOWER(tvl.project_contract_address)
+AND dune.week = tvl.week  
 
 
 
