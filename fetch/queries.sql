@@ -36,36 +36,39 @@
     -- hence for getting details for ETH/USDC uniswapv3_0.05, we will have to specify the project_contract_address as the address above 
 
 SELECT 
-    project AS project, 
-    block_time AS block_time, 
-    token_bought_symbol AS buy_token, 
-    token_sold_symbol AS sell_token, 
-    token_pair AS token_pair, 
-    token_bought_amount As token_bought_amount, 
-    token_sold_amount AS token_sold_amount, 
-    amount_usd AS amount_usd, 
-    project_contract_address as project_contract_address, 
-    tx_hash AS tx_hash,
+    DATE_TRUNC('week', block_time) AS week,
 
-CASE
-    -- uniswap addresses
-    WHEN project_contract_address = 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640 THEN 'uniswap_v3_0.05_ethusdc'
-    WHEN project_contract_address = 0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8 THEN 'uniswap_v3_0.3_ethusdc'
-    WHEN project_contract_address = 0xE0554a476A092703abdB3Ef35c80e0D76d32939F THEN 'uniswap_v3_0.01_ethusdc'
-    WHEN project_contract_address = 0x7BeA39867e4169DBe237d55C8242a8f2fcDcc387 THEN 'uniswap_v3_1.0_ethusdc'
-    WHEN project_contract_address = 0x11b815efB8f581194ae79006d24E0d814B7697F6 THEN 'uniswap_v3_0.05_ethusdt'
-    WHEN project_contract_address = 0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36 THEN 'uniswap_v3_0.3_ethusdt'
-    WHEN project_contract_address = 0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b THEN 'uniswap_v3_0.01_ethusdt'
-    
-    -- sushiswap addresses 
-    WHEN project_contract_address = 0x397FF1542f962076d0BFE58eA045FfA2d347ACa0 THEN 'sushiv2_usdceth'
-    WHEN project_contract_address = 0x06da0fd433C1A5d7a4faA01111c044910A184553 THEN 'sushiv2_ethusdt'
+    CASE
+        -- uniswap addresses
+        WHEN project_contract_address = 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640 THEN 'uniswap_v3_0.05_ethusdc'
+        WHEN project_contract_address = 0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8 THEN 'uniswap_v3_0.3_ethusdc'
+        WHEN project_contract_address = 0xE0554a476A092703abdB3Ef35c80e0D76d32939F THEN 'uniswap_v3_0.01_ethusdc'
+        WHEN project_contract_address = 0x7BeA39867e4169DBe237d55C8242a8f2fcDcc387 THEN 'uniswap_v3_1.0_ethusdc'
+        WHEN project_contract_address = 0x11b815efB8f581194ae79006d24E0d814B7697F6 THEN 'uniswap_v3_0.05_ethusdt'
+        WHEN project_contract_address = 0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36 THEN 'uniswap_v3_0.3_ethusdt'
+        WHEN project_contract_address = 0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b THEN 'uniswap_v3_0.01_ethusdt'
+        
+        -- sushiswap addresses 
+        WHEN project_contract_address = 0x397FF1542f962076d0BFE58eA045FfA2d347ACa0 THEN 'sushiv2_usdceth'
+        WHEN project_contract_address = 0x06da0fd433C1A5d7a4faA01111c044910A184553 THEN 'sushiv2_ethusdt'
 
-    -- curve addresses 
-    WHEN project_contract_address = 0x7f86bf177dd4f3494b841a37e810a34dd56c829b THEN 'curve_usdcwbtcweth'
-    WHEN project_contract_address = 0xD51a44d3FaE010294C616388b506AcdA1bfAAE46 THEN 'curve_usdtwbtcweth'
-    WHEN project_contract_address = 0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4 THEN 'curve_usdt'
-END AS venue  
+        -- curve addresses 
+        WHEN project_contract_address = 0x7f86bf177dd4f3494b841a37e810a34dd56c829b THEN 'curve_usdcwbtcweth'
+        WHEN project_contract_address = 0xD51a44d3FaE010294C616388b506AcdA1bfAAE46 THEN 'curve_usdtwbtcweth'
+        WHEN project_contract_address = 0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4 THEN 'curve_usdt'
+    END AS venue,
+
+    CASE
+        WHEN amount_usd <  1000   THEN '0.5k-1k'
+        WHEN amount_usd <  10000  THEN '1k-10k'
+        WHEN amount_usd <  100000 THEN '10k-100k'
+        ELSE '100k+'
+    END AS size_bucket,
+
+    COUNT(*) AS swap_count,
+    SUM(amount_usd) AS total_volume_usd,
+    SUM(token_bought_amount) AS total_token_bought,
+    SUM(token_sold_amount) AS total_token_sold
 
 FROM dex.trades 
 
@@ -88,6 +91,9 @@ WHERE
     ) AND 
     block_time >= CAST('2025-07-16' AS TIMESTAMP) AND 
     amount_usd >= 500
+
+GROUP BY 1, 2, 3
+ORDER BY week, venue, size_bucket
 
 
 
