@@ -39,6 +39,9 @@ Historical TVL sourcing: I couldn't find historical TVL data from Dune for Unisw
 
 The project UUIDs were extracted from defillama's data and then stored by adding the project_contract_address separately. 
 
+SQL Database 
+The tables were pulled from Dune and DeFillama and both were joined on project_contract_address and week to create a merged table for further analysis. 
+
 ### To learn before starting project: 
 
 1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically
