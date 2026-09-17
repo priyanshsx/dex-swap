@@ -38,8 +38,13 @@ SELECT
 
     COUNT(*) AS swap_count,
     SUM(amount_usd) AS total_volume_usd,
-    SUM(token_bought_amount) AS total_token_bought,
-    SUM(token_sold_amount) AS total_token_sold,
+    SUM(
+        CASE 
+            WHEN token_bought_symbol IN ('ETH', 'WETH') THEN token_bought_amount
+            WHEN token_sold_symbol IN ('ETH', 'WETH') THEN token_sold_amount 
+            ELSE 0
+        END
+    ) AS total_eth_volume,
     project_contract_address AS project_contract_address
 
 FROM dex.trades 
@@ -62,21 +67,21 @@ WHERE
         0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4
     ) AND 
     block_time >= CAST('2025-07-16' AS TIMESTAMP) AND 
-    amount_usd >= 500
+    amount_usd >= 500 
 
-GROUP BY 1, 2, 3
+GROUP BY 1, 2, 3, 8
 ORDER BY week, venue, size_bucket
 
 -- joining the two tables in duckdb
 CREATE TABLE merged AS 
 SELECT 
+    dune.week,
     dune.venue, 
     dune.size_bucket,
     dune.project_contract_address, 
     dune.swap_count, 
     dune.total_volume_usd, 
-    dune.total_token_bought, 
-    dune.total_token_sold,
+    dune.total_eth_volume, 
     tvl.tvl_usd, 
     tvl.fee_tier
 
@@ -94,6 +99,11 @@ WHERE LOWER(dune.project_contract_address) NOT IN(
     SELECT DISTINCT LOWER(project_contract_address)
     FROM df_tvl_weekly
 )
+
+
+-- computes base vwap and effective execution price 
+-- vwap per bucket: vwapbucket = total_volume_usd / total_eth_swapped
+-- vwap benchmark: 
 
 
 
