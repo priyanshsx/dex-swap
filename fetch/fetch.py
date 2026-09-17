@@ -54,7 +54,9 @@ target_pools_sushiswap = {
 }
 
 target_pools_curve = {
-    ()
+    ("USDC-WBTC-WETH", "null"): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
+    ("USDT-WBTC-WETH", "null"): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
+    ("WETH-WBTC-USDT", "null"): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4"
 }
 
 
@@ -77,6 +79,8 @@ for item in data['data']:
                 "symbol": symbol, 
                 "project_contract_address": target_pools_uniswap[(symbol, tier)].lower()
             })
+
+    # sushiswap
     elif item.get('project') == 'sushiswap' and item.get('chain') == 'Ethereum':
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
@@ -89,6 +93,18 @@ for item in data['data']:
                 "project_contract_address": target_pools_sushiswap[(symbol, tier)].lower()
             })
 
+    # curve
+    elif item.get('project') == 'curve' and item.get('chain') == 'Ethereum':
+        tier = item.get('poolMeta')
+        symbol = item.get('symbol')
+
+        if (symbol, tier) in target_pools_curve:
+            pool_uuids.append({
+                "uuid": item['pool'],
+                "fee_tier": tier, 
+                "symbol": symbol, 
+                "project_contract_address": target_pools_curve[(symbol, tier)].lower()
+            })
 
 # fetch the historical data per UUID 
 

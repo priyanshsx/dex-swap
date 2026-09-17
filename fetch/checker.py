@@ -14,10 +14,10 @@ if response.status_code == 200:
 else:
     print(f"Error fetching the data from DeFillama.")
 
-target_sushiswap = [
+target_curve = [
     item for item in data["data"]
-    if item.get("project") == "sushiswap" and item.get("chain") == "Ethereum" and item.get("symbol") == "WETH-USDT"
+    if item.get("project") == "curve-dex" and item.get("chain") == "Ethereum" and item.get("symbol") == "USDC-WBTC-WETH"
 ]
 
-print(f"found {len(target_sushiswap)} Sushiswap pools")
-print(json.dumps(target_sushiswap[:3], indent=2))
+print(f"found {len(target_curve)} Curve pools")
+print(json.dumps(target_curve[:3], indent=2))
