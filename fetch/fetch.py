@@ -12,7 +12,7 @@ response = requests.get(url)
 
 if response.status_code == 200:
     print(f"Successfully fetched data from DeFillama.")
-    data = response.json()
+    data = response.json().get('data', [])
 else:
     print(f"Error fetching the data from DeFillama.")
     exit()
@@ -57,74 +57,49 @@ target_pools_sushiswap = {
 }
 
 target_pools_curve = {
-    ("USDC-WBTC-WETH", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("USDC-WETH-WBTC", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("WBTC-USDC-WETH", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("WBTC-WETH-USDC", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("WETH-USDC-WBTC", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("WETH-WBTC-USDC", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-
-    ("USDT-WBTC-WETH", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("USDT-WETH-WBTC", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("WBTC-USDT-WETH", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("WBTC-WETH-USDT", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("WETH-USDT-WBTC", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("WETH-WBTC-USDT", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-
-    ("USDT-WBTC-WETH", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
-    ("USDT-WETH-WBTC", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
-    ("WBTC-USDT-WETH", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
-    ("WBTC-WETH-USDT", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
-    ("WETH-USDT-WBTC", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
-    ("WETH-WBTC-USDT", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4",
+    "9abc391b-1ddf-4afb-bced-43dcc26c3fa6": "0x7f86bf177dd4f3494b841a37e810a34dd56c829b", # USDC-WBTC-WETH
+    "9e4dbe67-f5fc-4428-8e6f-93d464f40a0d": "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46", # USDT-WBTC-WETH (Tricrypto2)
+    "3c2762d6-9c06-4a42-b098-40f9f885ae02": "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4"  # USDT-WBTC-WETH (TricryptoUSDT)
 }
 
 
+for item in data:
+    chain = item.get('chain', '')
+    project = item.get('project', '').lower()
+    symbol = item.get('symbol')
+    tier = item.get('poolMeta')
+    uuid = item.get('pool')
 
-for item in data['data']:
+    if chain != 'Ethereum':
+        continue
 
-    # checking and filtering for uniswap v3 on ethereum 
-    if item.get('project') == 'uniswap-v3' and item.get('chain') == 'Ethereum':
+    # uniswap v3
+    if project == 'uniswap-v3' and (symbol, tier) in target_pools_uniswap:
+        pool_uuids.append({
+            "uuid": uuid,
+            "fee_tier": tier, 
+            "symbol": symbol, 
+            "project_contract_address": target_pools_uniswap[(symbol, tier)].lower()
+        })
 
-        # extracting tier and symbols from the json object
-        tier = item.get('poolMeta')
-        symbol = item.get('symbol')
+    # sushiswap 
+    elif 'sushi' in project and (symbol, tier) in target_pools_sushiswap:
+        pool_uuids.append({
+            "uuid": uuid,
+            "fee_tier": tier, 
+            "symbol": symbol,
+            "project_contract_address": target_pools_sushiswap[(symbol, tier)].lower()
+        })
 
-        if (symbol, tier) in target_pools_uniswap:
+    # curve 
+    elif 'curve' in project and uuid in target_pools_curve:
+        pool_uuids.append({
+            "uuid": uuid,
+            "fee_tier": tier, 
+            "symbol": symbol, 
+            "project_contract_address": target_pools_curve[uuid].lower()
+        })
 
-            # creating a dict and storing UUIDs 
-            pool_uuids.append({
-                "uuid": item['pool'],
-                "fee_tier": tier, 
-                "symbol": symbol, 
-                "project_contract_address": target_pools_uniswap[(symbol, tier)].lower()
-            })
-
-    # sushiswap
-    elif 'sushi' in item.get('project', '').lower() and item.get('chain') == 'Ethereum':
-        tier = item.get('poolMeta')
-        symbol = item.get('symbol')
-
-        if (symbol, tier) in target_pools_sushiswap:
-            pool_uuids.append({
-                "uuid": item['pool'],
-                "fee_tier": tier, 
-                "symbol": symbol,
-                "project_contract_address": target_pools_sushiswap[(symbol, tier)].lower()
-            })
-
-    # curve
-    elif 'curve' in item.get('project', '').lower() and item.get('chain') == 'Ethereum':
-        tier = item.get('poolMeta')
-        symbol = item.get('symbol')
-
-        if (symbol, tier) in target_pools_curve:
-            pool_uuids.append({
-                "uuid": item['pool'],
-                "fee_tier": tier, 
-                "symbol": symbol, 
-                "project_contract_address": target_pools_curve[(symbol, tier)].lower()
-            })
 
 # fetch the historical data per UUID 
 
