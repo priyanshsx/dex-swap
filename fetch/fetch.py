@@ -15,6 +15,7 @@ if response.status_code == 200:
     data = response.json()
 else:
     print(f"Error fetching the data from DeFillama.")
+    exit()
 
 # find specific UUIDs per pool 
 
@@ -48,15 +49,17 @@ target_pools_uniswap = {
 target_pools_sushiswap = {
 
     # sushiswap pools 
-    ("USDC-WETH", "null"): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0",
-    ("WETH-USDT", "null"): "0x06da0fd433C1A5d7a4faA01111c044910A184553"    
+    ("USDC-WETH", None): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0",
+    ("WETH-USDC", None): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0",
+    ("WETH-USDT", None): "0x06da0fd433C1A5d7a4faA01111c044910A184553",
+    ("USDT-WETH", None): "0x06da0fd433C1A5d7a4faA01111c044910A184553"    
 
 }
 
 target_pools_curve = {
-    ("USDC-WBTC-WETH", "null"): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
-    ("USDT-WBTC-WETH", "null"): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
-    ("WETH-WBTC-USDT", "null"): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4"
+    ("USDC-WBTC-WETH", None): "0x7f86bf177dd4f3494b841a37e810a34dd56c829b",
+    ("USDT-WBTC-WETH", None): "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46",
+    ("WETH-WBTC-USDT", None): "0xf5f5B97624542D72A9E06f04804Bf81baA15e2B4"
 }
 
 
@@ -81,7 +84,7 @@ for item in data['data']:
             })
 
     # sushiswap
-    elif 'sushi' in item.get('project', '') and item.get('chain') == 'Ethereum':
+    elif 'sushi' in item.get('project', '').lower() and item.get('chain') == 'Ethereum':
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
 
@@ -94,7 +97,7 @@ for item in data['data']:
             })
 
     # curve
-    elif 'curve' in item.get('project', '') and item.get('chain') == 'Ethereum':
+    elif 'curve' in item.get('project', '').lower() and item.get('chain') == 'Ethereum':
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
 
@@ -135,6 +138,10 @@ for pool_info in pool_uuids:
 # saving to a csv
 
 df_tvl = pd.DataFrame(all_records)
+
+if df_tvl.empty:
+    print(f"No records fetched. Exiting.")
+    exit()
 
 # ensuring the correct format for time so that easier to merge with csv from dune 
 df_tvl['week'] = pd.to_datetime(df_tvl['date']).dt.tz_localize(None).dt.to_period('W').dt.to_timestamp()
