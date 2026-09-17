@@ -22,8 +22,9 @@ pool_uuids = []
 
 # ETH/USDC pairs 
 
-target_pools = {
+target_pools_uniswap = {
 
+    # uniswap pools 
     # ETH/USDC
     ("USDC-WETH", "0.05%"): "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
     ("WETH-USDC", "0.05%"): "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
@@ -40,8 +41,23 @@ target_pools = {
     ("USDT-WETH", "0.3%"):  "0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36",
     ("WETH-USDT", "0.3%"):  "0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36",
     ("USDT-WETH", "0.01%"): "0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b",
-    ("WETH-USDT", "0.01%"): "0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b"
+    ("WETH-USDT", "0.01%"): "0xc7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b",
+     
 }
+
+target_pools_sushiswap = {
+
+    # sushiswap pools 
+    ("USDC-WETH", "null"): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0",
+    ("WETH-USDT", "null"): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0"    
+
+}
+
+target_pools_curve = {
+    ()
+}
+
+
 
 for item in data['data']:
 
@@ -52,14 +68,25 @@ for item in data['data']:
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
 
-        if (symbol, tier) in target_pools:
+        if (symbol, tier) in target_pools_uniswap:
 
             # creating a dict and storing UUIDs 
             pool_uuids.append({
                 "uuid": item['pool'],
                 "fee_tier": tier, 
                 "symbol": symbol, 
-                "project_contract_address": target_pools[(symbol, tier)].lower()
+                "project_contract_address": target_pools_uniswap[(symbol, tier)].lower()
+            })
+    elif item.get('project') == 'sushiswap' and item.get('chain') == 'Ethereum':
+        tier = item.get('poolMeta')
+        symbol = item.get('symbol')
+
+        if (symbol, tier) in target_pools_sushiswap:
+            pool_uuids.append({
+                "uuid": item['pool'],
+                "fee_tier": tier, 
+                "symbol": symbol,
+                "project_contract_address": target_pools_sushiswap[(symbol, tier)].lower()
             })
 
 

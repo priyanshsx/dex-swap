@@ -42,6 +42,9 @@ The project UUIDs were extracted from defillama's data and then stored by adding
 SQL Database 
 The tables were pulled from Dune and DeFillama and both were joined on project_contract_address and week to create a merged table for further analysis. 
 
+Null Values 
+WHile pulling data from DeFillama, it was observed that several NULL values had crept in the database for Curve and SushiSwap. This meant that we hadn't been able to fetch accurate data from DeFiLlama itself. 
+
 ### To learn before starting project: 
 
 1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically
