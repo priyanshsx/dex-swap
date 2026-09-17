@@ -49,7 +49,7 @@ target_pools_sushiswap = {
 
     # sushiswap pools 
     ("USDC-WETH", "null"): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0",
-    ("WETH-USDT", "null"): "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0"    
+    ("WETH-USDT", "null"): "0x06da0fd433C1A5d7a4faA01111c044910A184553"    
 
 }
 
@@ -81,7 +81,7 @@ for item in data['data']:
             })
 
     # sushiswap
-    elif item.get('project') == 'sushiswap' and item.get('chain') == 'Ethereum':
+    elif 'sushi' in item.get('project', '') and item.get('chain') == 'Ethereum':
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
 
@@ -94,7 +94,7 @@ for item in data['data']:
             })
 
     # curve
-    elif item.get('project') == 'curve' and item.get('chain') == 'Ethereum':
+    elif 'curve' in item.get('project', '') and item.get('chain') == 'Ethereum':
         tier = item.get('poolMeta')
         symbol = item.get('symbol')
 
@@ -138,5 +138,5 @@ df_tvl = pd.DataFrame(all_records)
 
 # ensuring the correct format for time so that easier to merge with csv from dune 
 df_tvl['week'] = pd.to_datetime(df_tvl['date']).dt.tz_localize(None).dt.to_period('W').dt.to_timestamp()
-df_tvl_weekly = (df_tvl.groupby(['week', 'project_contract_address', 'symbol', 'fee_tier'])['tvl_usd'].mean().reset_index())
+df_tvl_weekly = (df_tvl.groupby(['week', 'project_contract_address', 'symbol', 'fee_tier'], dropna=False)['tvl_usd'].mean().reset_index())
 df_tvl_weekly.to_csv('/home/priyansh/Documents/d/dex_swap/raw_data/df_tvl_weekly.csv', index=False)
