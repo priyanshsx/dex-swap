@@ -47,9 +47,21 @@ The tables were pulled from Dune and DeFillama and both were joined on project_c
 Null Values 
 WHile pulling data from DeFillama, it was observed that several NULL values had crept in the database for Curve and SushiSwap. This meant that we hadn't been able to fetch accurate data from DeFiLlama itself. 
 
-To effectively delineate calm vs stressed market 
+To effectively delineate calm vs stressed market periods, Kwant Terminal was used to extract ETH/USD data for the past year. 
 
 **Analysis**
+
+1. VWAP and Execution Drag 
+This analysis compares the weekly VWAP to the executed price per trade to identify the execution drag. 
+
+2. Identifying Market Regimes 
+By effectively identifying market regimes through the previous year, we're computing what market regime affected the execution price the most. We use annualized realized volatility of the ETH-USD pair (sourced via the Kwant Terminal). 
+
+3. Liquidity Turnover Ratio
+This helps us compute how much liquidity helps in executing trades across various venues. A high turnover ratio in calm markets is healthy but the same during a market crash can impact swap execution. 
+
+4. HHI (Herfindahl-Hirschman Index) for fee-tier fragmentation 
+The HHI index helps us determine how concentrated or fragmented the liquidity is across all the analyzed venues. This gives us an insight into how much larger-quantity swaps suffer when routing their swaps when HHI is low. 
 
 ### To learn before starting project: 
 
