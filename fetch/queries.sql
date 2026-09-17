@@ -85,6 +85,15 @@ LEFT JOIN df_new AS tvl
 ON LOWER(dune.project_contract_address) = LOWER(tvl.project_contract_address)
 AND dune.week = tvl.week  
 
+-- diagnosing why tvl_usd came up as NULL 
+SELECT DISTINCT
+    dune.venue
+    dune.project_contract_address
+FROM dune_swap_data_updated AS dune 
+WHERE LOWER(dune.project_contract_address) NOT IN(
+    SELECT DISTINCT LOWER(project_contract_address)
+    FROM df_tvl_weekly
+)
 
 
 
