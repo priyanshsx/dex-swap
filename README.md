@@ -15,6 +15,8 @@ Under calm vs. stressed market conditions over the past year, which venue (Unisw
 
 ### Methodology 
 
+**Data Extraction**
+
 Since the DEXs offering volume can change dynamically, this research specifically picked three of the biggest and most-known venues for v1: Uniswap V3, PancakeSwap, and Curve. Chains categorized by volume can be found on [DeFiLlama](https://defillama.com/dexs/chain/ethereum) and [Coingecko](https://www.coingecko.com/en/exchanges/decentralized/ethereum).
 
 Each of Uniswap's fee tiers (0.05%), (0.3%), and 1% were each treated as independent liquidity venues for ease of analysis. 
@@ -44,6 +46,10 @@ The tables were pulled from Dune and DeFillama and both were joined on project_c
 
 Null Values 
 WHile pulling data from DeFillama, it was observed that several NULL values had crept in the database for Curve and SushiSwap. This meant that we hadn't been able to fetch accurate data from DeFiLlama itself. 
+
+To effectively delineate calm vs stressed market 
+
+**Analysis**
 
 ### To learn before starting project: 
 
