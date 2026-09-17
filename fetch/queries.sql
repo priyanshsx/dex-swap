@@ -81,7 +81,7 @@ SELECT
     tvl.fee_tier
 
 FROM dune_swap_data_updated AS dune
-LEFT JOIN df_tvl_weekly AS tvl
+LEFT JOIN df_new AS tvl
 ON LOWER(dune.project_contract_address) = LOWER(tvl.project_contract_address)
 AND dune.week = tvl.week  
 
