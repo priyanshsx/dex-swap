@@ -1,4 +1,10 @@
-# DEX Swap 
+# DEX Swap (paused)
+
+NB: This project has been paused for further research because I wasn't able to delineate the proper scope of the project and it felt like it kept on increasing. I will come back to this project in future when I have at least two straight weeks to dedicate to this one single project. 
+
+If you'd like to see if any of the scripts and/or data can be used for your project, reach out on [X](https://x.com/brownbaconx). 
+
+
 
 ## Research Question 
 Under calm vs. stressed market conditions over the past year, which venue (Uniswap v3, SushiSwap, Curve) has provided the most consistent best execution for ETH/USDC. Further, it answers the questions: 
@@ -63,25 +69,9 @@ This helps us compute how much liquidity helps in executing trades across variou
 4. HHI (Herfindahl-Hirschman Index) for fee-tier fragmentation 
 The HHI index helps us determine how concentrated or fragmented the liquidity is across all the analyzed venues. This gives us an insight into how much larger-quantity swaps suffer when routing their swaps when HHI is low. 
 
----
-
-## Phase 1: Data Sourcing
-
-- [ ] Explore Dune's public dashboards for Uniswap v3, SushiSwap, Curve, and Balancer swap data — fork existing queries rather than writing from scratch
-- [ ] Identify the correct pool(s) for ETH/USDC on each venue:
-  - [ ] Uniswap v3 — note the fee tier(s) available (0.05%, 0.3%, 1%); decide whether to track the deepest tier only or all tiers
-  - [ ] PancakeSwap — identify the main ETH/USDC pool
-  - [ ] Curve — identify the relevant pool (Curve's ETH/USDC pools use a different invariant than the others — confirm which pool is most comparable)
-- [ ] Pull 1 year of swap-level data per venue via the Dune API (swap size, price, timestamp, pool reserves at time of swap if available)
-- [ ] Pull 1 year of pool TVL/reserves data per venue (separate from swap-level data — needed for the liquidity-depth analysis)
-- [ ] Cache all raw pulls locally (CSV or SQLite) so you're not re-querying Dune every time you rerun analysis
-
----
-
-
 ## Data 
 - Dune 
-- 
+- DefiLlama  
 
 ## Things to take care of 
 - Decimal mismatches 
