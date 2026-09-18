@@ -101,10 +101,22 @@ WHERE LOWER(dune.project_contract_address) NOT IN(
 )
 
 
--- computes base vwap and effective execution price 
--- vwap per bucket: vwapbucket = total_volume_usd / total_eth_swapped
--- vwap benchmark: 
+-- analysis 
 
+    -- calculating vwap 
+    CREATE TABLE vwap_metrics AS 
+    SELECT 
+        week, venue, size_bucket, 
+        SUM(total_volume_usd) / SUM(total_eth_volume) AS vwap_price
+    FROM merged  
+    GROUP BY week, size_bucket, venue 
+    ORDER BY week, venue, size_bucket 
+
+    
+
+
+
+        
 
 
 

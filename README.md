@@ -63,13 +63,6 @@ This helps us compute how much liquidity helps in executing trades across variou
 4. HHI (Herfindahl-Hirschman Index) for fee-tier fragmentation 
 The HHI index helps us determine how concentrated or fragmented the liquidity is across all the analyzed venues. This gives us an insight into how much larger-quantity swaps suffer when routing their swaps when HHI is low. 
 
-### To learn before starting project: 
-
-1. Blockchain/DeFi mechanics: Constant-product AMM math (Uniswap/Sushi) vs. Curve's stableswap invariant vs. Balancer's weighted-pool math; token decimals (ERC-20 basics) — the 6 vs. 18 decimal trap; what "liquidity pool," "TVL," and "fee tier" actually mean mechanically
-2. Data/API skills: REST API basics: pagination, rate limits, auth headers (for Dune + 1inch APIs)
-JSON parsing into DataFrames
-3. Pandas (the specific operations this project needs); resample() and rolling windows (for regime classification, rolling volatility); Merging/joining on timestamp across multiple sources; Handling missing/gapped time-series data
-
 ---
 
 ## Phase 1: Data Sourcing
